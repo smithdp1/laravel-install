@@ -21,4 +21,5 @@ Route::get('/about', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'WorkOrdersController@index')->name('workorders.index');
+Route::get('get-workorder-data', 'WorkOrdersController@workorderData');
