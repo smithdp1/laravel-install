@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Datatables;
 use DB;
 use Illuminate\Http\Request;
-use Response;
+use Symfony\Component\Process\Process;
 
 class WorkOrdersController extends Controller
 {
@@ -47,11 +47,46 @@ class WorkOrdersController extends Controller
     //     return view('workorders.index');
     // }
 
+    public function runScript()
+    {
+        // $out = shell_exec("php test.php 2> output");
+        // print $out ? $out : join("", file("output"));
+        // die();
+
+        define("SHELL_PATH", "/wamp/www/mep-concept");
+        ini_set('max_execution_time', 60);
+
+        $arrProcess = array(
+            "sh",
+            "./script.sh",
+            "2>&1",
+        );
+
+        chdir(SHELL_PATH);
+        $process = new Process(implode(" ", $arrProcess));
+        $process->run(function ($type, $buffer) {
+            if (Process::ERR === $type) {
+                return response()->json([
+                    "status" => 1,
+                    "code" => 5004,
+                    "msg" => "Error when run site",
+                ], 500);
+            } else {
+                return response()->json([
+                    "status" => 0,
+                    "msg" => "Run shell successfully",
+                    "process" => $buffer,
+                ], 200);
+            }
+
+        });
+    }
+
     public function workorderData()
     {
         $workorders = DB::table('work_orders')->select('*');
-        return datatables()->of($workorders)
-            ->make(true);
+        //dd($workorders);
+        return datatables()->of($workorders)->make(true);
     }
 
     /**

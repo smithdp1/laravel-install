@@ -14,12 +14,13 @@
 Route::get('/', function () {
     return Redirect::to('/home');
 });
+Route::get('/test', 'HomeController@index');
 
 Route::get('/about', function () {
     return 'helo';
 });
 
 Auth::routes();
-
+Route::post('/run-script', 'WorkOrdersController@runScript');
 Route::get('/home', 'WorkOrdersController@index')->name('workorders.index');
 Route::get('get-workorder-data', 'WorkOrdersController@workorderData');

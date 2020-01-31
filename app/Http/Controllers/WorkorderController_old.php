@@ -30,4 +30,11 @@ class WorkorderController extends Controller
         //return view('workorders.index', ['dataTable' => $dataTable]);
     }
 
+    public function runScript()
+    {
+        $WshShell = new COM("WScript.Shell");
+        $obj = $WshShell->Run("cscript C:/wamp/www/mep-concept/public/readwrite.vbs", 1, true);
+        return redirect::to('/home');
+    }
+
 }
