@@ -80,6 +80,8 @@ class WorkOrdersController extends Controller
             }
 
         });
+
+        return redirect('/home');
     }
 
     public function workorderData()
