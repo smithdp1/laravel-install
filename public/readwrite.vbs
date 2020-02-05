@@ -6,7 +6,7 @@ MsgBox("THIS PROGRAM WILL : " & vbCrLf & vbCrLf & _
 "3. Save the spreadsheet to the same directory with the current date as the name")
 
 cFolder = inputbox("Enter the path where to open & save the spreadsheet","Spreadheet Path",_
-"C:\Users\David\Desktop\")
+"C:\Users\mep\Desktop\")
 
 
 Set objExcel = CreateObject("Excel.Application")

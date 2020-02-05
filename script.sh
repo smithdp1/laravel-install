@@ -1,2 +1,2 @@
 #!/bin/bash
-cscript C:/wamp/www/mep-concept/public/readwrite.vbs
+cscript C:/xampp/htdocs/mep-concept/public/readwrite.vbs

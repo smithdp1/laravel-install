@@ -28,32 +28,13 @@ class WorkOrdersController extends Controller
         return view('workorders.index');
         //return view('workorders.index', ['dataTable' => $dataTable]);
     }
-    // public function index(Request $request)
-    // {
-    //     if ($request->ajax()) {
-    //         $data = WorkOrder::latest()->get();
-    //         //dd($data);
-    //         return Datatables::of($data)
-    //             ->addIndexColumn()
-    //             ->addColumn('action', function ($row) {
-
-    //                 $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-
-    //                 return $btn;
-    //             })
-    //             ->rawColumns(['action'])
-    //             ->make(true);
-    //     }
-    //     return view('workorders.index');
-    // }
+   
 
     public function runScript()
     {
-        // $out = shell_exec("php test.php 2> output");
-        // print $out ? $out : join("", file("output"));
-        // die();
+        
 
-        define("SHELL_PATH", "/wamp/www/mep-concept");
+        define("SHELL_PATH", "/xampp/htdocs/mep-concept");
         ini_set('max_execution_time', 60);
 
         $arrProcess = array(
@@ -63,25 +44,29 @@ class WorkOrdersController extends Controller
         );
 
         chdir(SHELL_PATH);
-        $process = new Process(implode(" ", $arrProcess));
-        $process->run(function ($type, $buffer) {
-            if (Process::ERR === $type) {
-                return response()->json([
-                    "status" => 1,
-                    "code" => 5004,
-                    "msg" => "Error when run site",
-                ], 500);
-            } else {
-                return response()->json([
-                    "status" => 0,
-                    "msg" => "Run shell successfully",
-                    "process" => $buffer,
-                ], 200);
-            }
+        ob_start();
+        $process = shell_exec(implode(" ", $arrProcess));
+        ob_end_clean();
+        // $process = new Process(implode(" ", $arrProcess));
 
-        });
+        // $process->run(function ($type, $buffer) {
+        //     if (Process::ERR === $type) {
+        //         return response()->json([
+        //             "status" => 1,
+        //             "code" => 5004,
+        //             "msg" => "Error when run site",
+        //         ], 500);
+        //     } else {
+        //         return response()->json([
+        //             "status" => 0,
+        //             "msg" => "Run shell successfully",
+        //             "process" => $buffer,
+        //         ], 401);
+        //     }
 
-        return redirect('/home');
+        // });
+
+       return redirect('/home');
     }
 
     public function workorderData()
